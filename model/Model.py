@@ -16,11 +16,9 @@ class Model():
         This method will remove all colors created by this application
         and assign a new default value to all affected Alt3s.
         """
-        color_path = "C:\\Program Files (x86)\\Steam\steamapps\\common\\Sid Meier's Civilization VI\\Base\\Assets\\UI\\Colors\\"
-
         # Reset the global colors
-        original = open(color_path+"PlayerStandardColors.xml", "r")
-        new_copy = open(color_path+"Copy_PlayerStandardColors.xml", "w")
+        original = open(self.color_path + self.sub_path + "playerstandardcolors.xml", "r")
+        new_copy = open(self.color_path + self.sub_path + "copy_playerstandardcolors.xml", "w")
 
         # Figure out how many colors need to be removed during copy process
         counter = 1
@@ -49,10 +47,10 @@ class Model():
         new_copy.close()
 
         # Move copy file contents into original, skipping entry_count*4 lines
-        original = open(color_path+"PlayerStandardColors.xml", "w")
-        new_copy = open(color_path+"Copy_PlayerStandardColors.xml", "r")
+        original = open(self.color_path + "playerstandardcolors.xml", "w")
+        new_copy = open(self.color_path + "copy_playerstandardcolors.xml", "r")
         
-        entry_count *= 4
+        entry_count *= 5
         counter = 1
         for line in new_copy:
             if counter == 4:
@@ -65,14 +63,14 @@ class Model():
 
         original.close()
         new_copy.close()
-        remove(color_path+"Copy_PlayerStandardColors.xml")
+        remove(self.color_path + "copy_playerstandardcolors.xml")
 
         # Reset red and white to all Alt3s as default
-        default_primary = "COLOR_STANDARD_RED_MD"
-        default_secondary = "COLOR_STANDARD_WHITE_LT"
-        tuple_list = leader_dict.items()
-        for leader_path in tuple_list:
-            self.assign_alt3(leader_path[0], leader_path[1], default_primary, default_secondary)
+        #default_primary = "COLOR_STANDARD_RED_MD"
+        #default_secondary = "COLOR_STANDARD_WHITE_LT"
+        #tuple_list = leader_dict.items()
+        #for leader_path in tuple_list:
+        #    self.assign_alt3(leader_path[0], leader_path[1], default_primary, default_secondary)
 
 
     def assign_alt3(self, leader, path, p_title, s_title):
