@@ -46,7 +46,7 @@ class Model():
         original.close()
         new_copy.close()
 
-        # Move copy file contents into original, skipping entry_count*4 lines
+        # Move copy file contents into original, skipping entry_count*5 lines
         original = open(self.color_path + "playerstandardcolors.xml", "w")
         new_copy = open(self.color_path + "copy_playerstandardcolors.xml", "r")
         
@@ -65,6 +65,44 @@ class Model():
         new_copy.close()
         remove(self.color_path + "copy_playerstandardcolors.xml")
 
+        # Remove colors from playercolors.xml
+        original = open(self.color_path + self.sub_path + "playercolors.xml", "r")
+        new_copy = open(self.color_path + self.sub_path + "copy_playercolors.xml", "w")
+
+        # Copy contents of original file to temporary file
+        for line in original:
+            new_copy.write(line)
+
+        original.close()
+        new_copy.close()
+
+        # Rewrite the original by using the copy, uncommenting changes along the way 
+        original = open(self.color_path + self.sub_path + "playercolors.xml", "w")
+        new_copy = open(self.color_path + self.sub_path + "copy_playercolors.xml", "r")
+
+        counter = 0 # 1 -> on second comment; 2 -> first line to remove; 3 -> second line to remove
+        for line in new_copy:
+            if (line.find("<!--") != -1) or (counter == 1): # Uncomment found comment
+                new_line = line.strip().split("<!-- ")[1].split(" -->")[0]
+                new_line = '\t\t\t' + new_line +'\n'
+                original.write(new_line)
+                counter += 1
+                continue
+    
+            if (counter == 2) or (counter == 3): # Dont write custom colors back to file
+                counter += 1
+                continue
+
+            if counter == 4: # Made it past the comments and custom colors, so reset vars
+                counter = 0
+
+            original.write(line)
+
+        original.close()
+        new_copy.close()
+        remove(self.color_path + self.sub_path + "copy_playercolors.xml")
+
+        # === OLD CODE FOR DLC LEADERS ===
         # Reset red and white to all Alt3s as default
         #default_primary = "COLOR_STANDARD_RED_MD"
         #default_secondary = "COLOR_STANDARD_WHITE_LT"
