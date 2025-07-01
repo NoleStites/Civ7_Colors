@@ -44,8 +44,8 @@ class Model():
         new_copy.close()
 
         # Move copy file contents into original, skipping entry_count*5 lines
-        original = open(self.color_path + "playerstandardcolors.xml", "w")
-        new_copy = open(self.color_path + "copy_playerstandardcolors.xml", "r")
+        original = open(self.color_path + self.sub_path + "playerstandardcolors.xml", "w")
+        new_copy = open(self.color_path + self.sub_path + "copy_playerstandardcolors.xml", "r")
         
         entry_count *= 5
         counter = 1
@@ -60,7 +60,7 @@ class Model():
 
         original.close()
         new_copy.close()
-        remove(self.color_path + "copy_playerstandardcolors.xml")
+        remove(self.color_path + self.sub_path + "copy_playerstandardcolors.xml")
 
         # Remove colors from playercolors.xml
         original = open(self.color_path + self.sub_path + "playercolors.xml", "r")
