@@ -4,6 +4,8 @@ This repo contains a Python script that allows users to edit the main colors of 
 
 > It is important to note that this code edits the Civilization VII source code directly, namely the following files: `playerstandardcolors.xml` and `playercolors.xml`. **This program lets you safely undo any changes to regain the original source code**.
 
+![An example leader with colors changed](example_colors.png)
+
 ## Installation
 ### Windows
 1. Download the ZIP file of this repository by either clicking [here](https://github.com/NoleStites/Civ7_Colors/archive/refs/heads/main.zip) or clicking the big green "<> Code" button at the top of the page and selecting "Download ZIP"
