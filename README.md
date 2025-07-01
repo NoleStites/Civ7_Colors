@@ -35,3 +35,7 @@ This project is an unofficial modding utility for Civilization VII that allows u
 Use of this tool may violate the End User License Agreement (EULA) of Civilization VII. By using this script, you agree that you are responsible for any modifications made to your own game installation.
 
 This project is not affiliated with, endorsed by, or associated with Firaxis Games or 2K in any way. All trademarks and copyrights belong to their respective owners.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
