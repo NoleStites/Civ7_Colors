@@ -1,12 +1,9 @@
 from os import remove
 
 class Model():
-    def __init__(self):
-        # default path to the Civ7 game files
-        #self.color_path = "C:\\Program Files (x86)\\Steam\steamapps\\common\\Sid Meier's Civilization VII\\"
-        self.color_path = "./"
-        #self.sub_path = "Base\\modules\\base-standard\\data\\colors\\" # The rest of the path to get to color files
-        self.sub_path = ""
+    def __init__(self, path, sub_path):
+        self.color_path = path
+        self.sub_path = sub_path
 
     def set_color_path(self, path):
         self.color_path = path
