@@ -6,15 +6,14 @@ This repo contains a Python script that allows users to edit the main colors of 
 
 ![An example leader with colors changed](example_colors.png)
 
-## Installation
+## Setup
 ### Windows
-1. Download the ZIP file of this repository by either clicking [here](https://github.com/NoleStites/Civ7_Colors/archive/refs/heads/main.zip) or clicking the big green "<> Code" button at the top of the page and selecting "Download ZIP"
-2. Extract the contents of the ZIP file by right-clicking it in your Downloads folder and selecting "Extract"
-3. Enter the new folder and double-click the `main.py` file to start the program
+1. [Download the executable](https://github.com/NoleStites/Civ7_Colors/releases/latest/download/Civ7Colors.exe)
+> Your system will likely flag the file as untrustworthy. Click "Keep" and it will be downloaded.
+2. Open the `Civ7Colors.exe` file with double-click and enjoy!
+> **IMPORTANT**: understand that this file, when run, will access and modify your Civilization VII source code. It is perfectly safe and can be undone through clicking "Reset Files" in the app.
 
-> Windows 11 should come with Python installed by default. If it isn't installed already, install it through the Microsoft Store. 
-
-### Linux
+### Linux & MacOS
 Coming soon.
 
 ## Functionality
