@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed for tag creation and pushing
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,24 +29,11 @@ jobs:
         run: |
           pyinstaller --onefile --name Civ7Colors main.py
 
-      - name: Create version tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git tag v1.0.${{ github.run_number }}
-          git push origin v1.0.${{ github.run_number }}
-
-      - name: Create GitHub Release
+      - name: Create Release and Upload EXE
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v1.0.${{ github.run_number }}
           name: "Auto Release ${{ github.run_number }}"
-          tag_name: "v1.0.${{ github.run_number }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload EXE to Release
-        uses: softprops/action-gh-release@v2
-        with:
           files: dist/Civ7Colors.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
