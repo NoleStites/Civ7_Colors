@@ -1,9 +1,9 @@
-name: Build Windows EXE
+name: Build and Release Windows EXE
 
 on:
   push:
-    branches: [ main ]  # or whatever your main branch is called
-  workflow_dispatch:    # allows manual triggering from GitHub UI
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -16,28 +16,21 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'  # match your local Python version
+          python-version: '3.12'  # Change if needed
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
-          #pip install -r requirements.txt || echo "No requirements.txt found"
 
-      - name: Build executable
+      - name: Build executable with PyInstaller
         run: |
-          pyinstaller --onefile main.py
-
-      - name: Upload executable
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-exe
-          path: dist/Civ7Colors.exe
+          pyinstaller --onefile --name Civ7Colors main.py
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: "Auto Release"
+          name: "Auto Release ${{ github.run_number }}"
           tag_name: "v1.0.${{ github.run_number }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,5 +41,3 @@ jobs:
           files: dist/Civ7Colors.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
