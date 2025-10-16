@@ -119,8 +119,8 @@ class Model():
         caps_leader = "LEADER_" + caps_leader
 
         # Open and prepare the file at the end of the given path
-        new_path = path + "temp.xml"
-        original = open(path + "playercolors.xml", "r")
+        new_path = path / "temp.xml"
+        original = open(path / "playercolors.xml", "r")
         new_copy = open(new_path, "w")
 
         # As we copy original to copy, keep track of where leader is
@@ -136,7 +136,7 @@ class Model():
         new_copy.close()
 
         # Move copy into original and write over Alt3 at leader_location
-        original = open(path + "playercolors.xml", "w")
+        original = open(path / "playercolors.xml", "w")
         new_copy = open(new_path, "r")
         
         finished = False
