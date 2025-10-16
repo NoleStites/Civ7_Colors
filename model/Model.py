@@ -14,8 +14,8 @@ class Model():
         and assign a new default value to all affected Alt3s.
         """
         # Reset the global colors
-        original = open(self.color_path + self.sub_path + "playerstandardcolors.xml", "r")
-        new_copy = open(self.color_path + self.sub_path + "copy_playerstandardcolors.xml", "w")
+        original = open(self.color_path / self.sub_path / "playerstandardcolors.xml", "r")
+        new_copy = open(self.color_path / self.sub_path / "copy_playerstandardcolors.xml", "w")
 
         # Figure out how many colors need to be removed during copy process
         counter = 1
@@ -44,8 +44,8 @@ class Model():
         new_copy.close()
 
         # Move copy file contents into original, skipping entry_count*5 lines
-        original = open(self.color_path + self.sub_path + "playerstandardcolors.xml", "w")
-        new_copy = open(self.color_path + self.sub_path + "copy_playerstandardcolors.xml", "r")
+        original = open(self.color_path / self.sub_path / "playerstandardcolors.xml", "w")
+        new_copy = open(self.color_path / self.sub_path / "copy_playerstandardcolors.xml", "r")
         
         entry_count *= 5
         counter = 1
@@ -60,11 +60,11 @@ class Model():
 
         original.close()
         new_copy.close()
-        remove(self.color_path + self.sub_path + "copy_playerstandardcolors.xml")
+        remove(self.color_path / self.sub_path / "copy_playerstandardcolors.xml")
 
         # Remove colors from playercolors.xml
-        original = open(self.color_path + self.sub_path + "playercolors.xml", "r")
-        new_copy = open(self.color_path + self.sub_path + "copy_playercolors.xml", "w")
+        original = open(self.color_path / self.sub_path / "playercolors.xml", "r")
+        new_copy = open(self.color_path / self.sub_path / "copy_playercolors.xml", "w")
 
         # Copy contents of original file to temporary file
         for line in original:
@@ -74,8 +74,8 @@ class Model():
         new_copy.close()
 
         # Rewrite the original by using the copy, uncommenting changes along the way 
-        original = open(self.color_path + self.sub_path + "playercolors.xml", "w")
-        new_copy = open(self.color_path + self.sub_path + "copy_playercolors.xml", "r")
+        original = open(self.color_path / self.sub_path / "playercolors.xml", "w")
+        new_copy = open(self.color_path / self.sub_path / "copy_playercolors.xml", "r")
 
         counter = 0 # 1 -> on second comment; 2 -> first line to remove; 3 -> second line to remove
         for line in new_copy:
@@ -97,7 +97,7 @@ class Model():
 
         original.close()
         new_copy.close()
-        remove(self.color_path + self.sub_path + "copy_playercolors.xml")
+        remove(self.color_path / self.sub_path / "copy_playercolors.xml")
 
         # === OLD CODE FOR DLC LEADERS ===
         # Reset red and white to all Alt3s as default
@@ -203,8 +203,8 @@ class Model():
         """
         
         # Create a copy of the original file
-        original = open(self.color_path + self.sub_path + "playerstandardcolors.xml", "r")
-        new_copy = open(self.color_path + self.sub_path + "copy_playerstandardcolors.xml", "w")
+        original = open(self.color_path / self.sub_path / "playerstandardcolors.xml", "r")
+        new_copy = open(self.color_path / self.sub_path / "copy_playerstandardcolors.xml", "w")
 
         counter = 1
         max_color = 0
@@ -223,8 +223,8 @@ class Model():
         new_copy.close()
 
         # Write to the original by using the copy and editing what needs to be editted
-        original = open(self.color_path + self.sub_path + "playerstandardcolors.xml", "w")
-        new_copy = open(self.color_path + self.sub_path + "copy_playerstandardcolors.xml", "r")
+        original = open(self.color_path / self.sub_path / "playerstandardcolors.xml", "w")
+        new_copy = open(self.color_path / self.sub_path / "copy_playerstandardcolors.xml", "r")
 
         counter = 1
         for line in new_copy:
@@ -255,7 +255,7 @@ class Model():
 
         original.close()
         new_copy.close()
-        remove(self.color_path + self.sub_path + "copy_playerstandardcolors.xml")
+        remove(self.color_path / self.sub_path / "copy_playerstandardcolors.xml")
 
         primary_title = f"NEW_COLOR_{primary_num}"
         secondary_title = f"NEW_COLOR_{secondary_num}"
@@ -361,7 +361,7 @@ class Model():
     
     def get_base_leaders(self):
         try:
-            f = open(self.color_path + self.sub_path + "playercolors.xml", "r")
+            f = open(self.color_path / self.sub_path / "playercolors.xml", "r")
         except:
             raise Exception("playercolors.xml doesn't exist!")
 
@@ -373,7 +373,7 @@ class Model():
                 line = line.lstrip().replace("<Type>LEADER_", "").replace("</Type>", "").replace("\n", "").replace("_", " ")
                 line = line.lower().title()
                 leader_list.append(line)
-                leader_path_dict[line] = self.color_path + self.sub_path
+                leader_path_dict[line] = self.color_path / self.sub_path
         f.close()
         return leader_list, leader_path_dict
     
