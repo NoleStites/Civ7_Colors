@@ -39,13 +39,11 @@ jobs:
       - name: Build executable with PyInstaller
         run: |
           pyinstaller --onefile --name ${{ matrix.pyinstaller_name }} main.py
-          ls -lh dist
 
       - name: Rename built file for release clarity
         run: |
           cd dist
           mv "${{ matrix.pyinstaller_name }}${{ matrix.ext }}" "${{ matrix.artifact }}"
-          ls -lh
 
       - name: Upload built artifact
         uses: actions/upload-artifact@v4
@@ -87,11 +85,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: ./dist
-
-      - name: Display structure
-        run: |
-          echo "Downloaded artifacts:"
-          ls -R ./dist
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
