@@ -14,42 +14,40 @@ jobs:
             ext: .exe
             artifact: Civ7Colors-Windows.exe
             pyinstaller_name: Civ7Colors
+            build_cmd: pyinstaller --onefile --name Civ7Colors main.py
           - os: macos-latest
-            ext: ""
-            artifact: Civ7Colors-macOS
+            ext: .app
+            artifact: Civ7Colors-macOS.zip
             pyinstaller_name: Civ7Colors
+            build_cmd: |
+              pyinstaller --onefile --windowed --name Civ7Colors main.py
+              cd dist
+              zip -r Civ7Colors-macOS.zip Civ7Colors.app
+
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install dependencies
-        run: |
+      - run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
 
-      - name: Build executable with PyInstaller
-        run: |
-          pyinstaller --onefile --name ${{ matrix.pyinstaller_name }} main.py
+      - run: ${{ matrix.build_cmd }}
 
-      - name: Rename built file for release clarity
-        run: |
-          cd dist
-          mv "${{ matrix.pyinstaller_name }}${{ matrix.ext }}" "${{ matrix.artifact }}"
-
-      - name: Upload built artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os }}
-          path: dist/${{ matrix.artifact }}
+          path: |
+            dist/${{ matrix.pyinstaller_name }}${{ matrix.ext }}
+            dist/${{ matrix.artifact }}
+          if-no-files-found: ignore
 
   release:
     runs-on: ubuntu-latest
@@ -57,47 +55,34 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Needed to access all tags
+          fetch-depth: 0
 
-      - name: Determine next version tag
-        id: version
+      - id: version
         run: |
           latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.0")
-          echo "Latest tag: $latest_tag"
-
-          # Strip "v" and split version into parts
           version=${latest_tag#v}
           major=$(echo "$version" | cut -d. -f1)
           minor=$(echo "$version" | cut -d. -f2)
           patch=$(echo "$version" | cut -d. -f3)
-
-          # Increment patch version
           new_tag="v$major.$minor.$((patch + 1))"
-          echo "New tag: $new_tag"
-
-          # Save for later steps
           echo "tag=$new_tag" >> $GITHUB_OUTPUT
 
-      - name: Download all build artifacts
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           path: ./dist
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           name: "Auto Release ${{ steps.version.outputs.tag }}"
           files: |
             dist/windows-latest/Civ7Colors-Windows.exe
-            dist/macos-latest/Civ7Colors-macOS
+            dist/macos-latest/Civ7Colors-macOS.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push new tag
-        run: |
+      - run: |
           git tag ${{ steps.version.outputs.tag }}
           git push origin ${{ steps.version.outputs.tag }}
