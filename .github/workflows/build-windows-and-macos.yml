@@ -20,7 +20,7 @@ jobs:
             artifact: Civ7Colors-macOS.zip
             pyinstaller_name: Civ7Colors
             build_cmd: |
-              pyinstaller --onefile --windowed --name Civ7Colors main.py
+              pyinstaller --windowed --name Civ7Colors main.py
               cd dist
               zip -r Civ7Colors-macOS.zip Civ7Colors.app
 
