@@ -14,7 +14,9 @@ jobs:
             ext: .exe
             artifact: Civ7Colors-Windows.exe
             pyinstaller_name: Civ7Colors
-            build_cmd: pyinstaller --onefile --name Civ7Colors main.py
+            build_cmd: |
+              pyinstaller --onefile --name Civ7Colors main.py
+              move dist\Civ7Colors.exe dist\Civ7Colors-Windows.exe
           - os: macos-latest
             ext: .app
             artifact: Civ7Colors-macOS.zip
